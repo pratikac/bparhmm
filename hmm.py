@@ -70,20 +70,21 @@ def test_forward_backward():
     def p_y_s(yi, si):
         return np.exp(-0.5*(yi-si)**2)
 
-    ''' 
-    K,T = 2, 8
+     
+    K,T = 2, 2
     P = np.array([[0.7, 0.3], [0.2, 0.8]])
     init = np.transpose(np.array([0.5, 0.5]))
     Y = [0,0,1,0,1,1,0,0]
-    '''
     
-    K,T = 2, 8
+    ''' 
+    K,T = 20, 2000
     P = np.random.rand(K,K)
     for i in xrange(K):
         P[i,:] = P[i,:]/np.sum(P[i,:])
     Y = np.random.randint(2, size=(T,)).tolist()
     init = np.transpose(np.array([1/float(K) for k in xrange(K)]))
-    print P, Y, init
+    #print P, Y, init
+    '''
 
     softev = np.zeros((K,T))
     for t in xrange(T):
@@ -95,4 +96,3 @@ def test_forward_backward():
 
 if __name__=='__main__':
     test_forward_backward()
-    
