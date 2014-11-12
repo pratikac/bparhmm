@@ -6,7 +6,6 @@ import pickle
 from pykalman import KalmanFilter
 
 
-
 def process_video():
     blobsT = []
     cap = cv2.VideoCapture('hns.mp4')
@@ -19,9 +18,10 @@ def process_video():
     def get_blobs(frame):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         thresh = cv2.getTrackbarPos('thresh', 'edge')
-        ret, edge = cv2.threshold(gray, thresh, 255, cv2.THRESH_BINARY)
+        ret, edge = cv2.threshold(gray, thresh, 255, cv2.THRESH_BINARY_INV)
+        
         contours, hierarchy = cv2.findContours(edge, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-        edge = cv2.cvtColor(edge, cv2.COLOR_GRAY2RGB)
+        #edge = cv2.cvtColor(edge, cv2.COLOR_GRAY2RGB)
         # 1. filter by area
         #areas = [cv2.contourArea(c) for c in contours]
         #print areas
@@ -57,7 +57,7 @@ def process_video():
     while (cap.isOpened()):
         ret, frame = cap.read()
         blobs,contours,edge = get_blobs(frame)
-        
+        '''
         new_blobs = ['n','n','n']
         for b in blobs:
             ds = [dist(b, curr_blobs[i]) for i in xrange(3)]
@@ -74,8 +74,8 @@ def process_video():
             cv2.circle(edge, (int(curr_blobs[i][0]), int(curr_blobs[i][1])), 15, (0,255,0))
 
         blobsT.append(curr_blobs[:])
-
-        cv2.drawContours(edge, contours, -1, (255,0,0), 2)
+        '''
+        #cv2.drawContours(edge, contours, -1, (255,255,255), 2)
         cv2.imshow('edge', edge)
         #time.sleep(0.01)
 
